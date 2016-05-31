@@ -1,0 +1,2 @@
+module WaldoHelper
+end
