@@ -12,7 +12,17 @@ PHOTO.PhotoModule = (function(){
 
   function _setHoverListener(){
     // TODO: It looks like hover out doesn't work if you move the mouse slowly???
-    $('#image-container').hover(_addTaggerBox, _removeTaggerBox);
+    $('#image-container').hover(_hoverIn, _hoverOut);
+  }
+
+  function _hoverIn(){
+    $('.tagged').show();
+    _addTaggerBox();
+  }
+
+  function _hoverOut(){
+    $('.tagged').hide();
+    _removeTaggerBox();
   }
 
   function _addTaggerBox(){
