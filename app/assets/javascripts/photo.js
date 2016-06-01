@@ -4,10 +4,44 @@ var PHOTO = {};
 
 PHOTO.PhotoModule = (function(){
 
+  // TODO: This is defined in 2 places. Fix.
   var _names = ['Waldo', 'Wenda', 'Odlaw', 'Wizard Whitebeard', 'Woof'];
 
   function init(){
+    _renderExistingTags();
     _setHoverListener();
+  }
+
+  function _renderExistingTags(){
+    console.log("Fetching tags...")
+    var response;
+
+    $.ajax({
+      url: 'tags.json',
+      method: 'GET',
+      success: function(json){
+        _renderTags(json);
+      }
+    });
+  }
+
+  function _renderTags(json){
+    json.forEach(function(tag){
+      _renderTag(tag);
+    });
+  }
+
+  function _renderTag(tag){
+    var $name = $('<div></div>')
+      .attr('class', 'name')
+      .text(tag.character);
+
+    var $tagBox = $('<div class="box"></div>')
+      .addClass('tagged')
+      .html($name)
+      .offset( { top: tag.top, left: tag.left } );
+
+    $('#image-container').prepend($tagBox);
   }
 
   function _setHoverListener(){
@@ -104,20 +138,11 @@ PHOTO.PhotoModule = (function(){
         _renderNewTag(json);
       }
     });
-
-    $('.name-dropdown').slideUp(350);
   }
 
   function _renderNewTag(json){
-    console.log(json);
-    var $name = $('<div></div>')
-      .attr('class', 'name')
-      .text(json.character);
-
-    $('.tagging')
-      .addClass('tagged')
-      .removeClass('tagging')
-      .html($name);
+    _renderTag(json);
+    _cancelTagging();
   }
 
   function _cancelTagging(){
