@@ -26,7 +26,6 @@ PHOTO.PhotoModule = (function(){
   }
 
   function _addTaggerBox(){
-    console.log('hi');
     // Create the tag div
     var $taggerBox = $('<div class="box"></div>')
       .addClass('tagger');
@@ -79,17 +78,41 @@ PHOTO.PhotoModule = (function(){
       })
       .slideDown(350);
 
-    $('.name-dropdown').on('click', 'li', _setTagName);
+    $('.name-dropdown').on('click', 'li', _saveTag);
     $('#photo').click(_cancelTagging);
   }
 
-  function _setTagName(event){
+  function _saveTag(event){
     var name = $(event.target).text();
-    var $name = $('<div></div>')
-      .attr('class', 'name')
-      .text(name);
+    var offset = $('.tagging').offset();
+    var data = {
+      tag: {
+        character: name,
+        top: offset.top,
+        left: offset.left
+      }
+    };
+
+    // Submit new tag
+    $.ajax({
+      url: 'tags',
+      method: 'POST',
+      data: data,
+      dataType: 'json',
+      success: function(json){
+        console.log('Added new tag!');
+        _renderNewTag(json);
+      }
+    });
 
     $('.name-dropdown').slideUp(350);
+  }
+
+  function _renderNewTag(json){
+    console.log(json);
+    var $name = $('<div></div>')
+      .attr('class', 'name')
+      .text(json.character);
 
     $('.tagging')
       .addClass('tagged')

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   get 'waldo/index'
 
+  resources :tags, only: [:create, :destroy], constraints: lambda { |req| req.format == :json }
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
