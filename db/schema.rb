@@ -14,8 +14,8 @@
 ActiveRecord::Schema.define(version: 20160531221420) do
 
   create_table "tags", force: :cascade do |t|
-    t.integer  "top",        null: false
-    t.integer  "left",       null: false
+    t.float    "top",        null: false
+    t.float    "left",       null: false
     t.string   "character",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

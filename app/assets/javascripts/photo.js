@@ -1,6 +1,6 @@
 "use strict;"
 
-var PHOTO = {};
+var PHOTO = PHOTO || {};
 
 PHOTO.PhotoModule = (function(){
 
@@ -8,40 +8,19 @@ PHOTO.PhotoModule = (function(){
   var _names = ['Waldo', 'Wenda', 'Odlaw', 'Wizard Whitebeard', 'Woof'];
 
   function init(){
-    _renderExistingTags();
+    // Gets and renders any existing tags
+    PHOTO.TagModule.init();
+
+    // Set up listeners
     _setHoverListener();
+    _setResizeListener();
   }
 
-  function _renderExistingTags(){
-    console.log("Fetching tags...")
-    var response;
-
-    $.ajax({
-      url: 'tags.json',
-      method: 'GET',
-      success: function(json){
-        _renderTags(json);
-      }
-    });
-  }
-
-  function _renderTags(json){
-    json.forEach(function(tag){
-      _renderTag(tag);
-    });
-  }
-
-  function _renderTag(tag){
-    var $name = $('<div></div>')
-      .attr('class', 'name')
-      .text(tag.character);
-
-    var $tagBox = $('<div class="box"></div>')
-      .addClass('tagged')
-      .html($name)
-      .offset( { top: tag.top, left: tag.left } );
-
-    $('#image-container').prepend($tagBox);
+  // Re-position existing tags when window is resized
+  function _setResizeListener(){
+    $(window).resize(function(){
+      PHOTO.TagModule.renderTags();
+    })
   }
 
   function _setHoverListener(){
@@ -118,12 +97,14 @@ PHOTO.PhotoModule = (function(){
 
   function _saveTag(event){
     var name = $(event.target).text();
-    var offset = $('.tagging').offset();
+    var position = $('.tagging').position();
+    var relativeTop = position.top / $('#image-container').height();
+    var relativeLeft = position.left / $('#image-container').width();
     var data = {
       tag: {
         character: name,
-        top: offset.top,
-        left: offset.left
+        top: relativeTop,
+        left: relativeLeft
       }
     };
 
@@ -135,14 +116,10 @@ PHOTO.PhotoModule = (function(){
       dataType: 'json',
       success: function(json){
         console.log('Added new tag!');
-        _renderNewTag(json);
+        PHOTO.TagModule.addTag(json);
+        _cancelTagging();
       }
     });
-  }
-
-  function _renderNewTag(json){
-    _renderTag(json);
-    _cancelTagging();
   }
 
   function _cancelTagging(){

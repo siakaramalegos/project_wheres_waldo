@@ -17,6 +17,8 @@
 #image-container img {
   width: 100%;
   display: inline-block;
+  position: relative;
+  z-index: -1;
 }
 
 .box {
