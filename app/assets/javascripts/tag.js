@@ -52,8 +52,8 @@ PHOTO.TagModule = (function(){
       .attr('data-left', tag.left)
       .html($name)
       .offset( {
-        top: tag.top * height,
-        left: tag.left * width
+        top: tag.top * height - 35,
+        left: tag.left * width - 35
       });
 
     $('#image-container').prepend($tagBox);

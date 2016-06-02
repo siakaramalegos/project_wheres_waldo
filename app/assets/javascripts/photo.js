@@ -98,8 +98,9 @@ PHOTO.PhotoModule = (function(){
   function _saveTag(event){
     var name = $(event.target).text();
     var position = $('.tagging').position();
-    var relativeTop = position.top / $('#image-container').height();
-    var relativeLeft = position.left / $('#image-container').width();
+    var relativeTop = (position.top + 35) / $('#image-container').height();
+    var relativeLeft = (position.left + 35) / $('#image-container').width();
+
     var data = {
       tag: {
         character: name,
