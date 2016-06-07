@@ -15,10 +15,10 @@
  */
 
 #image-container img {
-  width: 100%;
   display: inline-block;
   position: relative;
-  z-index: -1;
+  z-index: -2;
+  width: 100%;
 }
 
 .box {
@@ -29,19 +29,33 @@
 
 .tagger {
   border: 3px solid yellow;
+  display: none;
 }
 
 .tagging {
   border: 3px solid fuchsia;
+  display: none;
 }
 
 .tagged {
   border: 3px solid rebeccapurple;
+  display: none;
+  z-index: 1;
+  cursor: pointer;
 
   .name {
     background-color: rebeccapurple;
     font-size: 12px;
     color: white;
+  }
+
+  &:hover {
+    border-color: red;
+
+    .name {
+      background-color: red;
+      text-decoration: line-through;
+    }
   }
 }
 
@@ -49,6 +63,7 @@
   background-color: rgba(255, 255, 255, 0.8);
   border: 3px solid fuchsia;
   position: absolute;
+  display: none;
 
   ul {
     list-style: none;

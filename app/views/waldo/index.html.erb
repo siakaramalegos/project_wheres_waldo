@@ -2,5 +2,14 @@
 <p>Find Waldo and his friends. Click on the image to tag them.</p>
 
 <div id="image-container">
+  <div class="box tagger"></div>
+  <div class="box tagging"></div>
+  <div class="name-dropdown">
+    <ul>
+      <% Tag::CHARACTERS.each do |name| %>
+        <li><%= name %></li>
+      <% end %>
+    </ul>
+  </div>
   <%= image_tag 'ww_giant_image.jpg', id: 'photo' %>
 </div>

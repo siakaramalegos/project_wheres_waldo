@@ -9,20 +9,36 @@ PHOTO.TagModule = (function(){
     _getTags();
   }
 
+  function deleteTag(event){
+    var $target,
+        tagID;
+
+    if ( $(event.target).hasClass('tagged') ){
+      $target = $(event.target);
+    } else {
+      $target = $(event.target).parent('.tagged');
+    }
+    tagID = $target.data('id');
+
+    $.ajax({
+      url: 'tags/' + tagID + '.json',
+      method: 'DELETE',
+      success: function(json){
+        $target.remove();
+      }
+    });
+  }
+
   function addTag(tag){
     tags.push(tag);
     _renderTag(tag);
   }
 
   function _getTags(){
-    console.log("Fetching tags...")
-    var response;
-
     $.ajax({
       url: 'tags.json',
       method: 'GET',
       success: function(json){
-        console.log('Success!');
         tags = json;
         renderTags();
       }
@@ -48,13 +64,12 @@ PHOTO.TagModule = (function(){
     var $tagBox = $('<div class="box"></div>')
       .addClass('tagged')
       .attr('data-id', tag.id)
-      .attr('data-top', tag.top)
-      .attr('data-left', tag.left)
       .html($name)
-      .offset( {
+      .css( {
         top: tag.top * height - 35,
         left: tag.left * width - 35
-      });
+      })
+      .show();
 
     $('#image-container').prepend($tagBox);
   }
@@ -63,6 +78,7 @@ PHOTO.TagModule = (function(){
     init: init,
     renderTags: renderTags,
     addTag: addTag,
+    deleteTag: deleteTag,
     tags: tags
   }
 })();
