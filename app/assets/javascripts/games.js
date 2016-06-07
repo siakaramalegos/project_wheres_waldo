@@ -1,25 +1,25 @@
 "use strict;"
 
-var PHOTO = PHOTO || {};
+var APP = APP || {};
 
-PHOTO.PhotoModule = (function(){
+APP.GameModule = (function(){
 
   function init(){
     // Gets and renders any existing tags
-    PHOTO.TagModule.init();
+    APP.TagModule.init();
 
     // Set up listeners
     // TODO: hover out slow not working?
     $('#image-container').hover(_hoverIn, _hoverOut);
     $('#image-container').mousemove(_setTagPosition);
     $('#image-container').on('click', '.tagger', _setTag);
-    $('#image-container').on('click', '.tagged', PHOTO.TagModule.deleteTag);
+    $('#image-container').on('click', '.tagged', APP.TagModule.deleteTag);
     $('.name-dropdown').on('click', 'li', _saveTag);
     $(document).click(_clickOutsideTags);
 
     // Re-position existing tags when window is resized
     $(window).resize(function(){
-      PHOTO.TagModule.renderTags();
+      APP.TagModule.renderTags();
     })
   }
 
@@ -82,7 +82,7 @@ PHOTO.PhotoModule = (function(){
       data: data,
       dataType: 'json',
       success: function(json){
-        PHOTO.TagModule.addTag(json);
+        APP.TagModule.addTag(json);
         _cancelTagging();
       }
     });

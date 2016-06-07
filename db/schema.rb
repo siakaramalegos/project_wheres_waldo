@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160531221420) do
+ActiveRecord::Schema.define(version: 20160607153714) do
+
+  create_table "games", force: :cascade do |t|
+    t.float    "duration"
+    t.string   "player_name"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "tags", force: :cascade do |t|
     t.float    "top",        null: false

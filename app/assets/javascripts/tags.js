@@ -1,8 +1,8 @@
 "use strict;"
 
-var PHOTO = PHOTO || {};
+var APP = APP || {};
 
-PHOTO.TagModule = (function(){
+APP.TagModule = (function(){
   var tags;
 
   function init(){

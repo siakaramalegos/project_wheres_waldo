@@ -17,5 +17,5 @@
 
 
 $(document).ready(function(){
-  PHOTO.PhotoModule.init();
+  APP.GameModule.init();
 });
